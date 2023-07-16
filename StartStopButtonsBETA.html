@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Screen Recording Control</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .start-button {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background-color: green;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .stop-button {
+            width: 100px;
+            height: 50px;
+            background-color: red;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Screen Recording Control</h1>
+
+    <button class="start-button" onclick="sendCommand('START')">Start Recording</button>
+    <br><br>
+    <button class="stop-button" onclick="sendCommand('STOP')">Stop Recording</button>
+
+    <script>
+        // IP address and port configuration
+        const REMOTE_SERVER_IP = '1.1.1.1';  <!-- !!!!!!!!!!!MAKE SURE YOU CHANGE IP ADDRESS TO YOUR SERVER ADDRESS!!!!!!!!! -->
+        const REMOTE_SERVER_PORT = 1234;
+
+        // Function to send a command to the remote server
+        function sendCommand(command) {
+            console.log(`${command} button pressed!`);
+            alert(`${command} button pressed! Sending ${command} command...`);
+
+            // Send the command to the remote server using the HTTP protocol
+            fetch(`http://${REMOTE_SERVER_IP}:${REMOTE_SERVER_PORT}`, { method: 'POST', body: command })
+                .then(response => {
+                    if (response.status === 200) {
+                        console.log(`${command} command sent!`);
+                        alert(`${command} command sent!`);
+                    } else {
+                        console.error(`Error sending ${command} command.`);
+                        alert(`Error sending ${command} command.`);
+                    }
+                })
+                .catch(error => console.error(error));
+        }
+    </script>
+</body>
+</html>
